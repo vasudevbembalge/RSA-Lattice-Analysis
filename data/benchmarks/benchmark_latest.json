@@ -1,0 +1,345 @@
+{
+  "timestamp": "2026-09-21 18:50:22",
+  "rsa_benchmarks": [
+    {
+      "scheme": "RSA-OAEP",
+      "key_size_bits": 1024,
+      "keygen_time_ms": 255.169,
+      "encryption_time_ms": 25.384,
+      "decryption_time_ms": 88.725,
+      "verification_time_ms": 4.339,
+      "public_key_bytes": 272,
+      "private_key_bytes": 916,
+      "ciphertext_bytes": 128,
+      "verified": true
+    },
+    {
+      "scheme": "RSA-OAEP",
+      "key_size_bits": 2048,
+      "keygen_time_ms": 207.746,
+      "encryption_time_ms": 0.355,
+      "decryption_time_ms": 157.391,
+      "verification_time_ms": 0.044,
+      "public_key_bytes": 451,
+      "private_key_bytes": 1704,
+      "ciphertext_bytes": 256,
+      "verified": true
+    },
+    {
+      "scheme": "RSA-OAEP",
+      "key_size_bits": 3072,
+      "keygen_time_ms": 1178.936,
+      "encryption_time_ms": 0.386,
+      "decryption_time_ms": 653.261,
+      "verification_time_ms": 0.103,
+      "public_key_bytes": 625,
+      "private_key_bytes": 2488,
+      "ciphertext_bytes": 384,
+      "verified": true
+    }
+  ],
+  "lwe_comparison_benchmarks": [
+    {
+      "scheme": "Educational LWE",
+      "dimension": 2,
+      "parameters": {
+        "dimension": 2,
+        "modulus": 999999937,
+        "message_modulus": 256,
+        "noise_bound": 2,
+        "samples": 8,
+        "message_scale": 3906249,
+        "max_decryption_noise": 26,
+        "decoding_threshold": 1953124.5,
+        "correctness_margin": 1953098.5,
+        "correctness_guaranteed": true
+      },
+      "keygen_time_ms": 0.191,
+      "encryption_time_ms": 1.141,
+      "decryption_time_ms": 0.12,
+      "verification_time_ms": 0.035,
+      "public_key_bytes": 637,
+      "private_key_bytes": 325,
+      "ciphertext_bytes": 3689,
+      "verified": true,
+      "message_bytes": 31
+    },
+    {
+      "scheme": "Educational LWE",
+      "dimension": 4,
+      "parameters": {
+        "dimension": 4,
+        "modulus": 999999937,
+        "message_modulus": 256,
+        "noise_bound": 2,
+        "samples": 8,
+        "message_scale": 3906249,
+        "max_decryption_noise": 34,
+        "decoding_threshold": 1953124.5,
+        "correctness_margin": 1953090.5,
+        "correctness_guaranteed": true
+      },
+      "keygen_time_ms": 0.114,
+      "encryption_time_ms": 8.049,
+      "decryption_time_ms": 0.173,
+      "verification_time_ms": 0.118,
+      "public_key_bytes": 799,
+      "private_key_bytes": 329,
+      "ciphertext_bytes": 3963,
+      "verified": true,
+      "message_bytes": 31
+    },
+    {
+      "scheme": "Educational LWE",
+      "dimension": 8,
+      "parameters": {
+        "dimension": 8,
+        "modulus": 999999937,
+        "message_modulus": 256,
+        "noise_bound": 2,
+        "samples": 8,
+        "message_scale": 3906249,
+        "max_decryption_noise": 50,
+        "decoding_threshold": 1953124.5,
+        "correctness_margin": 1953074.5,
+        "correctness_guaranteed": true
+      },
+      "keygen_time_ms": 0.194,
+      "encryption_time_ms": 2.442,
+      "decryption_time_ms": 0.162,
+      "verification_time_ms": 0.081,
+      "public_key_bytes": 1112,
+      "private_key_bytes": 342,
+      "ciphertext_bytes": 5036,
+      "verified": true,
+      "message_bytes": 31
+    },
+    {
+      "scheme": "Educational LWE",
+      "dimension": 16,
+      "parameters": {
+        "dimension": 16,
+        "modulus": 999999937,
+        "message_modulus": 256,
+        "noise_bound": 2,
+        "samples": 16,
+        "message_scale": 3906249,
+        "max_decryption_noise": 98,
+        "decoding_threshold": 1953124.5,
+        "correctness_margin": 1953026.5,
+        "correctness_guaranteed": true
+      },
+      "keygen_time_ms": 0.389,
+      "encryption_time_ms": 10.868,
+      "decryption_time_ms": 0.158,
+      "verification_time_ms": 0.063,
+      "public_key_bytes": 3104,
+      "private_key_bytes": 362,
+      "ciphertext_bytes": 7472,
+      "verified": true,
+      "message_bytes": 31
+    }
+  ],
+  "comparison_benchmarks": [
+    {
+      "scheme": "RSA-OAEP",
+      "key_size_bits": 1024,
+      "keygen_time_ms": 255.169,
+      "encryption_time_ms": 25.384,
+      "decryption_time_ms": 88.725,
+      "verification_time_ms": 4.339,
+      "public_key_bytes": 272,
+      "private_key_bytes": 916,
+      "ciphertext_bytes": 128,
+      "verified": true
+    },
+    {
+      "scheme": "RSA-OAEP",
+      "key_size_bits": 2048,
+      "keygen_time_ms": 207.746,
+      "encryption_time_ms": 0.355,
+      "decryption_time_ms": 157.391,
+      "verification_time_ms": 0.044,
+      "public_key_bytes": 451,
+      "private_key_bytes": 1704,
+      "ciphertext_bytes": 256,
+      "verified": true
+    },
+    {
+      "scheme": "RSA-OAEP",
+      "key_size_bits": 3072,
+      "keygen_time_ms": 1178.936,
+      "encryption_time_ms": 0.386,
+      "decryption_time_ms": 653.261,
+      "verification_time_ms": 0.103,
+      "public_key_bytes": 625,
+      "private_key_bytes": 2488,
+      "ciphertext_bytes": 384,
+      "verified": true
+    },
+    {
+      "scheme": "Educational LWE",
+      "dimension": 2,
+      "parameters": {
+        "dimension": 2,
+        "modulus": 999999937,
+        "message_modulus": 256,
+        "noise_bound": 2,
+        "samples": 8,
+        "message_scale": 3906249,
+        "max_decryption_noise": 26,
+        "decoding_threshold": 1953124.5,
+        "correctness_margin": 1953098.5,
+        "correctness_guaranteed": true
+      },
+      "keygen_time_ms": 0.191,
+      "encryption_time_ms": 1.141,
+      "decryption_time_ms": 0.12,
+      "verification_time_ms": 0.035,
+      "public_key_bytes": 637,
+      "private_key_bytes": 325,
+      "ciphertext_bytes": 3689,
+      "verified": true,
+      "message_bytes": 31
+    },
+    {
+      "scheme": "Educational LWE",
+      "dimension": 4,
+      "parameters": {
+        "dimension": 4,
+        "modulus": 999999937,
+        "message_modulus": 256,
+        "noise_bound": 2,
+        "samples": 8,
+        "message_scale": 3906249,
+        "max_decryption_noise": 34,
+        "decoding_threshold": 1953124.5,
+        "correctness_margin": 1953090.5,
+        "correctness_guaranteed": true
+      },
+      "keygen_time_ms": 0.114,
+      "encryption_time_ms": 8.049,
+      "decryption_time_ms": 0.173,
+      "verification_time_ms": 0.118,
+      "public_key_bytes": 799,
+      "private_key_bytes": 329,
+      "ciphertext_bytes": 3963,
+      "verified": true,
+      "message_bytes": 31
+    },
+    {
+      "scheme": "Educational LWE",
+      "dimension": 8,
+      "parameters": {
+        "dimension": 8,
+        "modulus": 999999937,
+        "message_modulus": 256,
+        "noise_bound": 2,
+        "samples": 8,
+        "message_scale": 3906249,
+        "max_decryption_noise": 50,
+        "decoding_threshold": 1953124.5,
+        "correctness_margin": 1953074.5,
+        "correctness_guaranteed": true
+      },
+      "keygen_time_ms": 0.194,
+      "encryption_time_ms": 2.442,
+      "decryption_time_ms": 0.162,
+      "verification_time_ms": 0.081,
+      "public_key_bytes": 1112,
+      "private_key_bytes": 342,
+      "ciphertext_bytes": 5036,
+      "verified": true,
+      "message_bytes": 31
+    },
+    {
+      "scheme": "Educational LWE",
+      "dimension": 16,
+      "parameters": {
+        "dimension": 16,
+        "modulus": 999999937,
+        "message_modulus": 256,
+        "noise_bound": 2,
+        "samples": 16,
+        "message_scale": 3906249,
+        "max_decryption_noise": 98,
+        "decoding_threshold": 1953124.5,
+        "correctness_margin": 1953026.5,
+        "correctness_guaranteed": true
+      },
+      "keygen_time_ms": 0.389,
+      "encryption_time_ms": 10.868,
+      "decryption_time_ms": 0.158,
+      "verification_time_ms": 0.063,
+      "public_key_bytes": 3104,
+      "private_key_bytes": 362,
+      "ciphertext_bytes": 7472,
+      "verified": true,
+      "message_bytes": 31
+    }
+  ],
+  "lattice_benchmarks": {
+    "dimension_scaling": [
+      {
+        "dimension": "2x2",
+        "dim_n": 2,
+        "execution_time_ms": 0.035,
+        "iterations": 1,
+        "swaps": 0
+      },
+      {
+        "dimension": "3x3",
+        "dim_n": 3,
+        "execution_time_ms": 0.013,
+        "iterations": 3,
+        "swaps": 1
+      },
+      {
+        "dimension": "4x4",
+        "dim_n": 4,
+        "execution_time_ms": 0.01,
+        "iterations": 11,
+        "swaps": 5
+      },
+      {
+        "dimension": "5x5",
+        "dim_n": 5,
+        "execution_time_ms": 0.01,
+        "iterations": 24,
+        "swaps": 11
+      },
+      {
+        "dimension": "6x6",
+        "dim_n": 6,
+        "execution_time_ms": 0.013,
+        "iterations": 34,
+        "swaps": 15
+      },
+      {
+        "dimension": "8x8",
+        "dim_n": 8,
+        "execution_time_ms": 0.046,
+        "iterations": 53,
+        "swaps": 24
+      }
+    ],
+    "norm_reduction": {
+      "vector_indices": [
+        "b_1",
+        "b_2",
+        "b_3"
+      ],
+      "original_norms": [
+        921.022,
+        111.763,
+        85.024
+      ],
+      "reduced_norms": [
+        32.955,
+        56.754,
+        416.458
+      ]
+    }
+  },
+  "disclaimer": "Empirically measured operational latencies. Private-key recovery is outside the scope of this implementation."
+}

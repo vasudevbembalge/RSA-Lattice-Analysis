@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSA Cryptography and Lattice-Based Analysis Framework</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Chart.js for empirical benchmark visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>RSA &amp; Lattice Analysis</h1>
+      <p>Academic Research System</p>
+    </div>
+    <ul class="nav-links">
+      <li class="nav-item"><a class="nav-link active" data-target="tab-dashboard">Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link" data-target="tab-keygen">RSA Key Generation</a></li>
+      <li class="nav-item"><a class="nav-link" data-target="tab-keyinfo">Key Information</a></li>
+      <li class="nav-item"><a class="nav-link" data-target="tab-encryption">RSA Encryption</a></li>
+      <li class="nav-item"><a class="nav-link" data-target="tab-decryption">RSA Decryption</a></li>
+      <li class="nav-item"><a class="nav-link" data-target="tab-lwe-demo">Lattice-Based Public-Key Encryption</a></li>
+      <li class="nav-item"><a class="nav-link" data-target="tab-lattice">Lattice / LLL Analysis</a></li>
+      <li class="nav-item"><a class="nav-link" data-target="tab-performance">Performance &amp; Benchmarks</a></li>
+      <li class="nav-item"><a class="nav-link" data-target="tab-about">About / Methodology</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <p>&copy; 2026 Academic Framework</p>
+      <p>Python 3.14 + Flask + Native C</p>
+    </div>
+  </aside>
+
+  <!-- Main Wrapper -->
+  <div class="main-wrapper">
+    <!-- Top System Bar -->
+    <header class="top-bar">
+      <div>
+        <h2 style="font-size: 1.1rem; font-weight: 600;">RSA Cryptography &amp; Lattice-Based Analysis Framework</h2>
+      </div>
+      <div class="system-status-badges">
+        <span class="badge badge-success" id="badge-rsa-status">&#x2713; RSA Ready</span>
+        <span class="badge badge-info" id="badge-lll-status">&#x2713; C LLL Engine Loaded</span>
+      </div>
+    </header>
+
+    <!-- Scope Banner -->
+    <div class="scope-banner">
+      <span>&#x26A0;</span>
+      <span><strong>Scope Notice:</strong> LLL reduction is demonstrated strictly as a lattice-analysis technique. Private-key recovery is outside the scope of this implementation.</span>
+    </div>
+
+    <!-- Content Area -->
+    <main class="content-container">
+
+      <!-- 1. DASHBOARD TAB -->
+      <section id="tab-dashboard" class="tab-pane active">
+        <div class="section-header">
+          <h2>System Dashboard</h2>
+          <p>Real-time architectural overview and operational health</p>
+        </div>
+
+        <div class="card-grid">
+          <div class="card">
+            <h3>RSA Key Generation <span class="badge badge-success">&#x2713; Ready</span></h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px;">
+              Generates secure 1024 to 4096-bit RSA keys using the standard OpenSSL backend.
+            </p>
+            <button class="btn btn-primary" onclick="navTo('tab-keygen')">Open Keygen &rarr;</button>
+          </div>
+
+          <div class="card">
+            <h3>RSA Encryption (OAEP) <span class="badge badge-success">&#x2713; Ready</span></h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px;">
+              Industry standard RSA-OAEP with SHA-256 and Base64 encoded ciphertext output.
+            </p>
+            <button class="btn btn-primary" onclick="navTo('tab-encryption')">Open Encryption &rarr;</button>
+          </div>
+
+          <div class="card">
+            <h3>RSA Decryption <span class="badge badge-success">&#x2713; Ready</span></h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px;">
+              Decodes Base64 payloads and securely decrypts using the corresponding private key.
+            </p>
+            <button class="btn btn-primary" onclick="navTo('tab-decryption')">Open Decryption &rarr;</button>
+          </div>
+
+          <div class="card">
+            <h3>Lattice-Based Public-Key Encryption <span class="badge badge-info">&#x2713; LWE</span></h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px;">
+              Generate Public Key (A, b) and Secret Key s, encrypt with the LWE construction, then decrypt the ciphertext (u, v) with s.
+            </p>
+            <button class="btn btn-primary" onclick="navTo('tab-lwe-demo')">Open LWE Encryption &rarr;</button>
+          </div>
+
+          <div class="card">
+            <h3>LLL Lattice Reduction <span class="badge badge-info">&#x2713; C Engine</span></h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px;">
+              High-performance native C engine for Gram-Schmidt orthogonalization and basis reduction. LLL is a separate lattice-analysis component.
+            </p>
+            <button class="btn btn-primary" onclick="navTo('tab-lattice')">Open Lattice Analysis &rarr;</button>
+          </div>
+
+          <div class="card">
+            <h3>Verification Engine <span class="badge badge-success">&#x2713; Available</span></h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px;">
+              Validates end-to-end cryptographic integrity via independent SHA-256 digests.
+            </p>
+            <button class="btn btn-primary" onclick="navTo('tab-decryption')">Inspect Verification &rarr;</button>
+          </div>
+
+          <div class="card">
+            <h3>Performance Benchmarks <span class="badge badge-info">&#x2713; Active</span></h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px;">
+              Empirical execution timings for RSA operations and C LLL lattice reduction.
+            </p>
+            <button class="btn btn-primary" onclick="navTo('tab-performance')">View Benchmarks &rarr;</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. RSA KEYGEN TAB -->
+      <section id="tab-keygen" class="tab-pane">
+        <div class="section-header">
+          <h2>RSA Key Pair Generation</h2>
+          <p>Standard cryptographic key generation with PEM serialization</p>
+        </div>
+
+        <div class="card">
+          <div class="form-group">
+            <label for="keygen-size">Select Modulus Key Size (bits)</label>
+            <select id="keygen-size" class="form-control" style="max-width: 320px;">
+              <option value="1024">1024 bits</option>
+              <option value="2048" selected>2048 bits (Recommended Default)</option>
+              <option value="3072">3072 bits</option>
+              <option value="4096">4096 bits</option>
+            </select>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="btn-generate-key">Generate Key Pair</button>
+            <button class="btn btn-secondary" id="btn-view-pub" disabled>View Public Key</button>
+            <button class="btn btn-secondary" id="btn-view-priv" disabled>View Private Key</button>
+          </div>
+          <div id="keygen-status" class="operation-status" hidden></div>
+
+          <div id="keygen-summary" style="display: none; margin-top: 20px; padding: 14px; background-color: var(--bg-primary); border-radius: 8px; border: 1px solid var(--border-color);">
+            <p style="color: var(--accent-emerald); font-weight: 600; margin-bottom: 8px;">&#x2713; Key generated successfully.</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; font-size: 0.85rem;">
+              <div><span style="color: var(--text-muted);">Algorithm:</span> <strong id="sum-alg">RSA</strong></div>
+              <div><span style="color: var(--text-muted);">Key Size:</span> <strong id="sum-size">2048 bits</strong></div>
+              <div><span style="color: var(--text-muted);">Public Exponent:</span> <strong id="sum-exp">65537</strong></div>
+              <div><span style="color: var(--text-muted);">Generation Time:</span> <strong id="sum-time">-</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. KEY INFO TAB -->
+      <section id="tab-keyinfo" class="tab-pane">
+        <div class="section-header">
+          <h2>Key Information &amp; Metadata</h2>
+          <p>Inspect administrative characteristics of PEM-encoded RSA keys</p>
+        </div>
+
+        <div class="card">
+          <div class="form-group">
+            <label for="keyinfo-input">Paste PEM Key (Public or Private)</label>
+            <textarea id="keyinfo-input" class="form-control" rows="8" placeholder="-----BEGIN PUBLIC KEY-----&#10;...&#10;-----END PUBLIC KEY-----"></textarea>
+          </div>
+          <button class="btn btn-primary" id="btn-inspect-key">Inspect Key</button>
+          <div id="keyinfo-status" class="operation-status" hidden></div>
+
+          <div id="keyinfo-result" style="margin-top: 20px; display: none;">
+            <h4 style="margin-bottom: 12px; font-size: 1rem;">Key Characteristics</h4>
+            <div class="matrix-display" id="keyinfo-details"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. ENCRYPTION TAB -->
+      <section id="tab-encryption" class="tab-pane">
+        <div class="section-header">
+          <h2>RSA Encryption (RSA-OAEP)</h2>
+          <p>Standardized probabilistic encryption with SHA-256 digest</p>
+        </div>
+
+        <div class="card">
+          <div style="margin-bottom: 16px; padding: 12px; background-color: var(--bg-primary); border-radius: 8px; font-size: 0.85rem;">
+            <span><strong>Scheme:</strong> RSA-OAEP</span> |
+            <span><strong>Hash Digest:</strong> SHA-256</span> |
+            <span><strong>Mask Function:</strong> MGF1(SHA-256)</span> |
+            <span><strong>Active Key Size:</strong> <span id="enc-active-keysize">2048 bits</span></span>
+          </div>
+
+          <div class="form-group">
+            <label for="enc-plaintext">Plaintext Message</label>
+            <textarea id="enc-plaintext" class="form-control" rows="4" placeholder="Enter plaintext message (e.g. 'Hello, RSA Cryptography')..."></textarea>
+          </div>
+
+          <button class="btn btn-primary" id="btn-encrypt-msg">Encrypt Message</button>
+          <div id="encryption-status" class="operation-status" hidden></div>
+
+          <div id="enc-result-box" style="margin-top: 24px; display: none;">
+            <div class="form-group">
+              <label for="enc-ciphertext">Encrypted Ciphertext (Base64)</label>
+              <textarea id="enc-ciphertext" class="form-control" rows="4" readonly></textarea>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-secondary" onclick="copyCiphertext()">Copy Ciphertext</button>
+              <button class="btn btn-secondary" onclick="transferToDecrypt()">Transfer to Decryption &rarr;</button>
+            </div>
+            <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-muted);">
+              Encryption Time: <strong id="enc-time">-</strong> | Payload: <strong id="enc-bytes">-</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. DECRYPTION TAB -->
+      <section id="tab-decryption" class="tab-pane">
+        <div class="section-header">
+          <h2>RSA Decryption &amp; Verification</h2>
+          <p>Base64 decoding, RSA-OAEP private key decryption, and round-trip verification</p>
+        </div>
+
+        <div class="card">
+          <div class="form-group">
+            <label for="dec-ciphertext">Ciphertext (Base64)</label>
+            <textarea id="dec-ciphertext" class="form-control" rows="4" placeholder="Paste Base64-encoded ciphertext..."></textarea>
+          </div>
+
+          <button class="btn btn-primary" id="btn-decrypt-msg">Decrypt Message</button>
+          <div id="decryption-status" class="operation-status" hidden></div>
+
+          <div id="dec-result-box" style="margin-top: 24px; display: none;">
+            <div class="form-group">
+              <label for="dec-plaintext">Decrypted Plaintext</label>
+              <textarea id="dec-plaintext" class="form-control" rows="4" readonly></textarea>
+            </div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+              Decryption Time: <strong id="dec-time">-</strong>
+            </div>
+
+            <div id="verification-banner" class="verif-box">
+              <span id="verif-icon">&#x2713;</span>
+              <span id="verif-text">VERIFICATION STATUS</span>
+            </div>
+            <div id="verification-status" class="operation-status" hidden></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. EDUCATIONAL LWE DEMONSTRATION TAB -->
+      <section id="tab-lwe-demo" class="tab-pane">
+        <div class="section-header">
+          <h2>LWE Public-Key Encryption</h2>
+          <p>A beginner-friendly public-key workflow: public key encrypts, private key decrypts.</p>
+        </div>
+
+        <div class="demo-notice">
+          <strong>Educational LWE Demonstration</strong>
+          <span>LWE is the encryption demonstration. LLL is a separate lattice-reduction analysis tool.</span>
+        </div>
+
+        <div class="lwe-beginner-flow" aria-label="LWE encryption workflow">
+          <div><span>1</span><strong>KEY GENERATION</strong><small>Public Key (A,b) + Private Key s</small></div>
+          <b>↓</b>
+          <div><span>2</span><strong>PLAINTEXT</strong><small>Your message</small></div>
+          <b>↓</b>
+          <div><span>3</span><strong>ENCRYPT</strong><small>Use Public Key (A,b)</small></div>
+          <b>↓</b>
+          <div><span>4</span><strong>CIPHERTEXT (u,v)</strong><small>Encrypted message</small></div>
+          <b>↓</b>
+          <div><span>5</span><strong>DECRYPT</strong><small>Use Private Key s</small></div>
+          <b>↓</b>
+          <div><span>6</span><strong>RECOVERED PLAINTEXT</strong><small>Verify the result</small></div>
+        </div>
+
+        <div class="card demo-controls-card">
+          <div class="demo-control-grid">
+            <div class="form-group">
+              <label for="lwe-demo-dimension">Configuration / dimension n</label>
+              <select id="lwe-demo-dimension" class="form-control">
+                <option value="2">Educational Small (n = 2)</option>
+                <option value="3" selected>Educational Medium (n = 3)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="lwe-demo-backend">Backend</label>
+              <select id="lwe-demo-backend" class="form-control">
+                <option value="python">Python reference</option>
+                <option value="native_c" selected>Native C</option>
+                <option value="both">Python + Native C</option>
+              </select>
+            </div>
+            <div class="form-group demo-message-field">
+              <label for="lwe-demo-message">Plaintext</label>
+              <textarea id="lwe-demo-message" class="form-control" rows="4">HELLO LATTICE</textarea>
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-primary" id="btn-lwe-generate">Generate LWE Key Pair</button>
+            <button class="btn btn-secondary" id="btn-lwe-encrypt" disabled>Encrypt with Public Key</button>
+            <button class="btn btn-secondary" id="btn-lwe-decrypt" disabled>Decrypt Ciphertext to Plaintext</button>
+          </div>
+          <div id="lwe-demo-status" class="operation-status" hidden></div>
+          <div class="demo-stat-grid" id="lwe-demo-message-configuration"></div>
+        </div>
+
+        <div id="lwe-demo-output" class="demo-output" hidden>
+          <div class="what-happens-panel lwe-advanced-panel">
+            <h3>What is happening?</h3>
+            <p class="what-happens-lead">The primary cryptographic demonstration is <strong>lattice-based public-key encryption</strong>. Use the three buttons above in order:</p>
+            <ol>
+              <li><strong>GENERATE LWE KEY PAIR</strong> produces Public Key <strong>(A, b)</strong>, built from public parameters <strong>(A, q)</strong>, secret key <strong>s</strong>, and error <strong>e</strong> as <strong>b = A s + e (mod q)</strong>.</li>
+              <li><strong>ENCRYPT WITH PUBLIC KEY</strong> takes the plaintext <strong>m</strong> and public key <strong>(A, b)</strong> with fresh randomness <strong>r</strong> and encryption noise and produces the LWE ciphertext <strong>(u, v)</strong>. Step 2 uses <strong>(A, b)</strong> only.</li>
+              <li><strong>DECRYPT WITH SECRET KEY</strong> takes the ciphertext <strong>(u, v)</strong> and secret key <strong>s</strong> and recovers the message. Step 3 uses <strong>s</strong> only.</li>
+              <li>The recovered message is then compared with the original plaintext.</li>
+              <li>Afterwards, the <strong>LATTICE REPRESENTATION</strong> gives the lattice interpretation of those noisy modular relations, and <strong>LLL</strong> is shown separately as lattice basis reduction.</li>
+            </ol>
+          </div>
+          <div class="demo-section-card" id="lwe-step-public-key">
+            <div class="demo-section-heading"><span class="demo-step">01</span><div><h3>LWE KEY GENERATION</h3><p>Generate the public key used for encryption and the private key used for decryption.</p></div></div>
+            <div class="demo-stat-grid" id="lwe-demo-public-parameters"></div>
+            <div class="demo-stat-grid" id="lwe-demo-parameters"></div>
+            <div class="demo-stat-grid" id="lwe-demo-key-timing"></div>
+            <div class="key-generation-flow">
+              <div class="key-flow-source">Matrix A + secret vector s + error vector e</div><span class="flow-down">↓</span>
+              <div class="key-flow-equation">b = A s + e mod q</div><span class="flow-down">↓</span>
+              <div class="key-flow-outputs"><div><strong>PUBLIC KEY</strong><span>(A, b)</span></div><div><strong>SECRET KEY</strong><span>s</span></div></div>
+            </div>
+            <div class="equation-grid" id="lwe-demo-key-equation"></div>
+            <div class="key-card public-key-card">
+              <div class="key-card-heading"><span class="key-card-kicker">PUBLIC KEY</span><strong>Public Key = (A, b)</strong></div>
+              <p>Use this public key to encrypt the plaintext.</p>
+              <h4>A = public matrix (m rows &#215; n columns)</h4>
+              <div id="lwe-demo-matrix" class="matrix-display matrix-host"></div>
+              <h4>b = public vector (m entries), b = A s + e mod q</h4>
+              <div id="lwe-demo-vector" class="matrix-display matrix-host"></div>
+            </div>
+          </div>
+
+          <div class="demo-section-card" id="lwe-step-secret-key">
+            <div class="demo-section-heading"><span class="demo-step">02</span><div><h3>PRIVATE KEY / SECRET KEY</h3><p>The private key is the secret vector s. It is shown because this is an educational demonstration.</p></div></div>
+            <div class="key-card secret-key-card">
+              <div class="key-card-heading"><span class="key-card-kicker">PRIVATE KEY</span><strong>Private Key / Secret Key = s</strong></div>
+              <p class="lwe-educational-warning">Educational demonstration — the private key is displayed for visualization and is not production-secure key handling.</p>
+              <h4>s = secret vector (n small entries) <span class="demo-toy-label">displayed intentionally for teaching</span></h4>
+              <div id="lwe-demo-secret" class="matrix-display matrix-host"></div>
+              <h4>e = error vector (m small entries) <span class="demo-toy-label">derived from A, b, s for display</span></h4>
+              <div id="lwe-demo-error" class="matrix-display matrix-host"></div>
+            </div>
+            <div class="demo-internal-note">The existing public/private key objects do not retain e, so the error vector shown here is the one the demonstration derives from the returned public values and the toy secret. Decryption itself needs only the secret vector s.</div>
+          </div>
+
+          <div class="lwe-simple-explanation">
+            <h3>HOW LWE ENCRYPTION WORKS</h3>
+            <div class="lwe-simple-flow">
+              <span>Plaintext</span><b>↓</b><span>LWE encoding</span><b>↓</b>
+              <span>Encrypt with Public Key (A,b)</span><b>↓</b><span>Ciphertext (u,v)</span><b>↓</b>
+              <span>Decrypt with Private Key s</span><b>↓</b><span>Original plaintext</span>
+            </div>
+            <p>The public key encrypts the message. The private/secret key recovers it. LLL is not used for either operation.</p>
+            <details>
+              <summary>Show Mathematical Details</summary>
+              <p>Key generation uses <code>b = A · s + e (mod q)</code>, where A is public, s is secret, and e is small error/noise.</p>
+            </details>
+          </div>
+
+          <div class="demo-section-card" id="lwe-step-encrypt" hidden>
+            <div class="demo-section-heading"><span class="demo-step">03</span><div><h3>LWE ENCRYPTION</h3><p>Plaintext + Public Key (A,b) produces the ciphertext.</p></div></div>
+            <div class="encryption-flow-grid">
+              <div><span>1. PLAINTEXT m</span><strong id="lwe-demo-flow-plaintext">-</strong></div><div class="flow-connector">+</div>
+              <div><span>2. MESSAGE ENCODING</span><strong id="lwe-demo-flow-encoding">-</strong></div><div class="flow-connector">+</div>
+              <div><span>3. PUBLIC KEY</span><strong id="lwe-demo-flow-publickey">(A, b)</strong></div><div class="flow-connector">+</div>
+              <div><span>4. RANDOMNESS r</span><strong>fresh per sample, backend-generated</strong></div><div class="flow-connector">+</div>
+              <div><span>5. ENCRYPTION NOISE e1, e2</span><strong>small values, backend-generated</strong></div><div class="flow-connector">&#8594;</div>
+              <div><span>6. LWE ENCRYPTION</span><strong id="lwe-demo-flow-encryption">u, v</strong></div><div class="flow-connector">&#8594;</div>
+              <div class="encryption-flow-result"><span>7. CIPHERTEXT (u, v)</span><strong id="lwe-demo-flow-ciphertext">(u, v)</strong></div>
+            </div>
+            <div class="lwe-lattice-reason">
+              <strong>Why this is lattice-based</strong>
+              <p>LWE encryption is based on noisy modular linear equations. These equations have an underlying lattice-based mathematical structure.</p>
+            </div>
+            <div class="key-generation-flow">
+              <div class="key-flow-source">A, b</div><span class="flow-down">↓</span>
+              <div class="key-flow-node">LWE public key</div><span class="flow-down">↓</span>
+              <div class="key-flow-node">Public-key encryption</div><span class="flow-down">↓</span>
+              <div class="key-flow-equation">Ciphertext (u, v)</div><span class="flow-down">↓</span>
+              <div class="key-flow-node">Secret key s</div><span class="flow-down">↓</span>
+              <div class="key-flow-node">Decryption &#8594; recovered message</div>
+            </div>
+            <div class="demo-two-column">
+              <div><h4>Message encoding returned with this ciphertext</h4><div id="lwe-demo-encoded" class="matrix-display matrix-host"></div></div>
+              <div>
+                <h4>Public Key Used: (A, b)</h4>
+                <div id="lwe-demo-encryption-public-matrix" class="matrix-display matrix-host"></div>
+                <div id="lwe-demo-encryption-public-vector" class="matrix-display matrix-host"></div>
+                <div class="equation-grid" id="lwe-demo-equations"></div>
+              </div>
+            </div>
+            <div class="demo-internal-note">The two equations above are the ones implemented in `educational_lwe.py`: one LWE sample per message symbol, with u = A&#7488;r + e&#8321; (mod q) and v = b&#7488;r + floor(q/p) &#183; symbol + e&#8322; (mod q), where floor(q/p) &#183; symbol is the message embedding. The randomness r and the noise e&#8321;, e&#8322; are generated inside the backend and are not returned by the endpoint, so no values are shown for them. Encryption here is modular arithmetic over the public key; the encryption operation itself is not an LLL operation.</div>
+          </div>
+
+          <div class="demo-section-card" id="lwe-step-ciphertext" hidden>
+            <div class="demo-section-heading"><span class="demo-step">04</span><div><h3>CIPHERTEXT</h3><p>Ciphertext = (u,v). This is the encrypted message produced by the LWE public key.</p></div></div>
+            <div class="demo-stat-grid" id="lwe-demo-ciphertext-meta"></div>
+            <div class="lwe-ciphertext-summary">
+              <h4>Ciphertext = (u, v)</h4>
+              <p class="lwe-ciphertext-lead">The values below are the actual encrypted ciphertext returned by the backend.</p>
+              <div id="lwe-demo-ciphertext" class="matrix-display matrix-host"></div>
+            </div>
+            <div class="demo-result-grid">
+              <div><span>Encryption</span><strong id="lwe-demo-encrypt-status" class="status-value">-</strong></div>
+              <div><span>Ciphertext</span><strong>(u, v)</strong></div>
+              <div><span>Public-key operation</span><strong>uses (A, b) only</strong></div>
+            </div>
+            <div class="demo-internal-note">The vectors and scalars below are exactly the values returned by the existing encryption endpoint. Producing them required only the public key (A, b) and fresh randomness.</div>
+          </div>
+
+          <div class="demo-section-card" id="lwe-step-decrypt" hidden>
+            <div class="demo-section-heading"><span class="demo-step">05</span><div><h3>DECRYPT CIPHERTEXT TO PLAINTEXT</h3><p>Ciphertext (u,v) + Private Key / Secret Key s produces the recovered plaintext.</p></div></div>
+            <div class="decryption-flow"><span>CIPHERTEXT (u, v)</span><b>+</b><span>SECRET KEY s</span><b>↓</b><span>LWE DECRYPTION</span><b>↓</b><code>t = v - uᵀs mod q</code><b>↓</b><span>DECODE / ROUND</span><b>↓</b><span>RECOVERED MESSAGE</span></div>
+            <div class="demo-two-column">
+              <div>
+                <h4>Ciphertext Used for Decryption: (u, v)</h4>
+                <div class="demo-stat-grid" id="lwe-demo-decrypt-ciphertext"></div>
+                <div id="lwe-demo-decrypt-ciphertext-values" class="matrix-display matrix-host"></div>
+              </div>
+              <div><h4>Private Key / Secret Key Used: s</h4><div id="lwe-demo-decrypt-secret" class="matrix-display matrix-host"></div></div>
+            </div>
+            <h4 style="margin: 16px 0 8px; color: var(--text-muted); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em;">Decryption equations (returned by the backend)</h4>
+            <div class="equation-grid" id="lwe-demo-decrypt-equations"></div>
+            <div class="demo-result-grid" style="margin-top: 16px;">
+              <div><span>Plaintext (original message)</span><strong id="lwe-demo-original">-</strong></div>
+              <div><span>Recovered encoded message</span><strong id="lwe-demo-recovered-encoded">-</strong></div>
+              <div><span>Recovered plaintext / text</span><strong id="lwe-demo-recovered">-</strong></div>
+              <div><span>Decryption time</span><strong id="lwe-demo-decryption-time">-</strong></div>
+              <div><span>Verification</span><strong id="lwe-demo-verification" class="status-value">-</strong></div>
+              <div><span>Result</span><strong id="lwe-demo-roundtrip" class="status-value">-</strong></div>
+            </div>
+            <div class="demo-internal-note">The decryption endpoint receives the ciphertext and the secret vector only. It returns the recovered plaintext; the per-symbol intermediate t values are not returned and are not fabricated here.</div>
+          </div>
+
+          <div class="demo-section-card lwe-advanced-panel" id="lwe-step-lattice">
+            <div class="demo-section-heading"><span class="demo-step">06</span><div><h3>LATTICE REPRESENTATION</h3><p>Integer combinations of the two basis vectors: v = z1 b1 + z2 b2. This card connects the LWE public-key encryption above to a lattice interpretation.</p></div></div>
+            <div class="key-generation-flow">
+              <div class="key-flow-source">LWE public-key encryption</div><span class="flow-down">↓</span>
+              <div class="key-flow-node">Noisy modular relations: b = A s + e (mod q)</div><span class="flow-down">↓</span>
+              <div class="key-flow-node">Lattice interpretation</div><span class="flow-down">↓</span>
+              <div class="key-flow-equation">Educational lattice visualization</div>
+            </div>
+            <div class="lattice-visual-layout">
+              <div class="lattice-canvas-wrap"><canvas id="lwe-lattice-canvas" width="760" height="420"></canvas></div>
+              <div class="lattice-legend" id="lwe-lattice-legend"></div>
+            </div>
+            <div class="demo-two-column" style="margin-top: 16px;">
+              <div><h4>Lattice basis B (rows b1 and b2)</h4><div id="lwe-lattice-basis" class="matrix-display matrix-host"></div></div>
+              <div><h4>What this view does and does not show</h4><div class="demo-internal-note" id="lwe-lattice-note" style="margin-top: 0;"></div></div>
+            </div>
+            <button class="btn btn-secondary" id="btn-lwe-regenerate-lattice">Regenerate Lattice</button>
+          </div>
+
+          <div class="demo-section-card lwe-advanced-panel" id="lwe-step-lll">
+            <div class="demo-section-heading"><span class="demo-step">07</span><div><h3>LLL LATTICE REDUCTION</h3><p>Original basis <span class="flow-arrow">-&gt;</span> LLL reduction <span class="flow-arrow">-&gt;</span> reduced basis, executed by the existing native C engine</p></div></div>
+            <div class="demo-lll-warning">LLL is a lattice basis-reduction algorithm. It is included to demonstrate lattice analysis and is separate from the LWE encryption/decryption operation. It does not encrypt or decrypt the message, and it is not required by this LWE encryption implementation.</div>
+            <div class="demo-two-column">
+              <div><h4>Original basis</h4><div id="lwe-demo-lll-original" class="matrix-display matrix-host"></div></div>
+              <div><h4>Reduced basis</h4><div id="lwe-demo-lll-reduced" class="matrix-display matrix-host"></div></div>
+            </div>
+            <div class="demo-two-column" style="margin-top: 16px;">
+              <div><h4>Vector norms: original (row 1) vs reduced (row 2)</h4><div id="lwe-demo-lll-norms" class="matrix-display matrix-host"></div></div>
+              <div><h4>Reduction telemetry</h4><div class="demo-stat-grid" id="lwe-demo-lll-stats" style="margin-bottom: 0;"></div></div>
+            </div>
+          </div>
+
+          <div class="demo-section-card lwe-advanced-panel" id="lwe-step-benchmark">
+            <div class="demo-section-heading"><span class="demo-step">08</span><div><h3>PYTHON VS C</h3><p>Timings recorded by this run, plus the persisted values from the existing benchmark file.</p></div></div>
+            <div class="demo-stat-grid" id="lwe-demo-run-timings"></div>
+            <div class="demo-stat-grid" id="lwe-demo-total-performance"></div>
+            <div class="table-scroll"><table class="results-table demo-comparison-table"><thead><tr><th>Operation</th><th>Python</th><th>Native C</th></tr></thead><tbody id="lwe-demo-benchmark-rows"></tbody></table></div>
+            <p class="demo-explanation">For the tested small dimensions, Python may be faster in end-to-end execution because ctypes, buffer conversion, allocation, and Python/C boundary overhead can dominate the computation.</p>
+          </div>
+
+          <div class="demo-section-card lwe-advanced-panel" id="lwe-step-architecture">
+            <div class="demo-section-heading"><span class="demo-step">09</span><div><h3>ARCHITECTURE</h3><p>LWE backends share the educational construction; LLL remains separate.</p></div></div>
+            <div class="architecture-diagram">
+              <div class="architecture-node architecture-root">LWE</div>
+              <div class="architecture-branches"><div class="architecture-branch"><strong>Python</strong><span>Reference implementation</span></div><div class="architecture-branch"><strong>Native C</strong><span>ctypes -&gt; lattice_crypto.dll</span></div></div>
+              <div class="architecture-node architecture-result">Key generation / Encryption / Decryption</div>
+              <div class="architecture-separator">Separate lattice analysis</div>
+              <div class="architecture-node architecture-lll">LLL -&gt; lll.dll</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. LATTICE / LLL ANALYSIS TAB -->
+      <section id="tab-lattice" class="tab-pane">
+        <div class="section-header">
+          <h2>Lattice Representation &amp; LLL Reduction</h2>
+          <p>Interactive lattice basis construction, Gram-Schmidt orthogonalization, and native C reduction</p>
+        </div>
+
+        <div class="card">
+          <div style="display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 20px;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Preset Samples</label>
+              <select id="lat-preset" class="form-control" style="width: 250px;">
+                <option value="textbook_3x3">Textbook 3x3 Lattice</option>
+                <option value="skewed_2x2">Skewed 2D Lattice</option>
+                <option value="dimension_4x4">4x4 Structured Basis</option>
+                <option value="rsa_analysis_basis">RSA Analysis Basis (Educational)</option>
+              </select>
+            </div>
+            <button class="btn btn-secondary" id="btn-load-preset">Load Preset</button>
+            <button class="btn btn-secondary" id="btn-random-matrix">Random Matrix</button>
+            <button class="btn btn-secondary" id="btn-clear-matrix">Clear</button>
+          </div>
+
+          <div class="form-group">
+            <label>Matrix Dimension (Rows &times; Columns)</label>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <input type="number" id="lat-rows" class="form-control" style="width: 80px;" min="1" max="10" value="3">
+              <span>&times;</span>
+              <input type="number" id="lat-cols" class="form-control" style="width: 80px;" min="1" max="10" value="3">
+              <button class="btn btn-secondary" id="btn-resize-grid">Resize Grid</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Matrix Editor (Basis Vectors B = [b_1, ..., b_n])</label>
+            <div id="matrix-editor-container" class="matrix-grid">
+              <!-- Matrix input cells rendered dynamically -->
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="lat-delta">Lov&aacute;sz Parameter &delta; (0.25 &lt; &delta; &le; 1.0)</label>
+            <input type="number" id="lat-delta" class="form-control" style="width: 140px;" step="0.05" min="0.26" max="1.0" value="0.75">
+          </div>
+
+          <button class="btn btn-primary" id="btn-run-lll">Run LLL Reduction</button>
+          <div id="lattice-status" class="operation-status" hidden></div>
+
+          <!-- LLL Output Display -->
+          <div id="lll-output-container" style="margin-top: 28px; display: none;">
+            <h4 style="margin-bottom: 12px; font-size: 1.1rem; color: var(--accent-cyan);">========== LLL ANALYSIS ==========</h4>
+            
+            <div class="card-grid" style="margin-bottom: 16px;">
+              <div class="card" style="padding: 14px;">
+                <h5 style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 8px;">Original Basis B</h5>
+                <div class="matrix-display matrix-host" id="disp-orig-basis"></div>
+              </div>
+              <div class="card" style="padding: 14px;">
+                <h5 style="color: var(--accent-emerald); font-size: 0.85rem; margin-bottom: 8px;">Reduced Basis B'</h5>
+                <div class="matrix-display matrix-host" id="disp-red-basis"></div>
+              </div>
+            </div>
+
+            <div style="background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; font-size: 0.85rem;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+                <div>Iterations: <strong id="lll-res-iter">-</strong></div>
+                <div>Vector Swaps: <strong id="lll-res-swaps">-</strong></div>
+                <div>Execution Time: <strong id="lll-res-time">-</strong></div>
+                <div>Status: <strong id="lll-res-status" style="color: var(--accent-emerald);">-</strong></div>
+              </div>
+              <div style="margin-top: 12px;">
+                Original Vector Norms: <strong id="lll-orig-norms">-</strong><br>
+                Reduced Vector Norms: <strong id="lll-red-norms" style="color: var(--accent-emerald);">-</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8. PERFORMANCE & BENCHMARKS TAB -->
+      <section id="tab-performance" class="tab-pane">
+        <div class="section-header">
+          <h2>Performance &amp; Empirical Benchmarks</h2>
+          <p>Measured RSA and educational LWE operations, plus separate native C LLL reduction telemetry</p>
+        </div>
+
+        <div class="card" style="margin-bottom: 24px;">
+          <h3 style="font-size: 1rem;">Benchmark Controls</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px;">
+            Runs the existing empirical benchmark engine. RSA measurements reflect cryptographic operation latency; LLL measurements reflect lattice basis reduction performance, not cryptanalytic success.
+          </p>
+          <button class="btn btn-primary" id="btn-run-benchmark">Run Benchmark</button>
+          <button class="btn btn-secondary" id="btn-load-benchmark-results">Load Latest Results</button>
+          <div id="performance-status" class="operation-status" hidden></div>
+          <div id="performance-metadata" class="metadata-panel" hidden>
+            <div><strong>RSA key sizes:</strong> <span id="performance-rsa-sizes"></span></div>
+            <div><strong>Lattice presets:</strong> <span id="performance-lattice-presets"></span></div>
+            <div><strong>Backend benchmark support:</strong> <span id="performance-benchmark-supported"></span></div>
+          </div>
+          <div id="benchmark-summary" class="metadata-panel" hidden>
+            <div><strong>Result source:</strong> <span id="benchmark-source"></span></div>
+            <div><strong>Benchmark timestamp:</strong> <span id="benchmark-timestamp"></span></div>
+          </div>
+        </div>
+
+        <div id="benchmark-results" hidden>
+          <div class="chart-grid">
+            <div class="chart-card">
+              <h3>RSA Performance vs Key Size</h3>
+              <div class="chart-wrapper"><canvas id="chart-rsa-performance"></canvas><div id="chart-rsa-performance-status" class="chart-status">No benchmark results available.</div></div>
+            </div>
+            <div class="chart-card">
+              <h3>LLL Execution Time vs Lattice Dimension</h3>
+              <div class="chart-wrapper"><canvas id="chart-lll-execution"></canvas><div id="chart-lll-execution-status" class="chart-status">No benchmark results available.</div></div>
+            </div>
+            <div class="chart-card">
+              <h3>LLL Iterations vs Lattice Dimension</h3>
+              <div class="chart-wrapper"><canvas id="chart-lll-iterations"></canvas><div id="chart-lll-iterations-status" class="chart-status">No benchmark results available.</div></div>
+            </div>
+            <div class="chart-card">
+              <h3>Vector Norms Before and After LLL Reduction</h3>
+              <div class="chart-wrapper"><canvas id="chart-norm-reduction"></canvas><div id="chart-norm-reduction-status" class="chart-status">No benchmark results available.</div></div>
+            </div>
+          </div>
+          <div class="card" style="margin-bottom: 24px;">
+            <h3 style="font-size: 1rem;">RSA Benchmarks</h3>
+            <div class="table-scroll"><table class="results-table"><thead><tr><th>Key Size</th><th>Key Generation (ms)</th><th>Encryption (ms)</th><th>Decryption (ms)</th><th>Verification (ms)</th><th>Verified</th></tr></thead><tbody id="rsa-benchmark-rows"></tbody></table></div>
+          </div>
+          <div class="card" style="margin-bottom: 24px;">
+            <h3 style="font-size: 1rem;">RSA versus LWE Comparison</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Measured execution and serialized representation sizes. These results support analysis; they do not establish that either scheme is universally better or more secure.</p>
+            <div class="table-scroll"><table class="results-table"><thead><tr><th>Scheme</th><th>Configuration</th><th>Key Generation (ms)</th><th>Encryption (ms)</th><th>Decryption (ms)</th><th>Total (ms)</th><th>Capacity (bytes)</th><th>Ciphertext (bytes)</th><th>Verified</th></tr></thead><tbody id="comparison-benchmark-rows"></tbody></table></div>
+          </div>
+          <div class="card" style="margin-bottom: 24px;">
+            <h3 style="font-size: 1rem;">LLL Reduction Benchmarks</h3>
+            <div class="table-scroll"><table class="results-table"><thead><tr><th>Matrix</th><th>Execution (ms)</th><th>Iterations</th><th>Swaps</th></tr></thead><tbody id="lll-benchmark-rows"></tbody></table></div>
+          </div>
+          <div class="card">
+            <h3 style="font-size: 1rem;">Measured Norm Reduction</h3>
+            <div class="table-scroll"><table class="results-table"><thead><tr><th>Vector</th><th>Original Norm</th><th>Reduced Norm</th></tr></thead><tbody id="norm-benchmark-rows"></tbody></table></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. ABOUT / METHODOLOGY TAB -->
+      <section id="tab-about" class="tab-pane">
+        <div class="section-header">
+          <h2>About / Research Methodology</h2>
+          <p>Academic specifications, algorithmic foundations, and system boundaries</p>
+        </div>
+
+        <div class="card" style="margin-bottom: 20px;">
+          <h3 style="color: var(--accent-cyan);">Project Problem Statement</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.7;">
+            Public-key cryptography is widely used for secure communication, while lattice-based computational techniques provide important tools for studying the mathematical structure of cryptographic problems. There is a need for an educational software framework that demonstrates RSA cryptographic operations together with lattice representation and LLL reduction in an interactive and measurable environment.
+          </p>
+        </div>
+
+        <div class="card" style="margin-bottom: 20px;">
+          <h3>System Architecture</h3>
+          <div style="background-color: var(--bg-primary); padding: 18px; border-radius: 8px; border: 1px solid var(--border-color); font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.6; overflow-x: auto;">
++-------------------------------------------------------------------------------+
+|                      WEB FRONTEND (HTML5 / CSS3 / ES6 / Chart.js)              |
++-------------------------------------------------------------------------------+
+                                        |  REST API (HTTP / JSON)
+                                        v
++-------------------------------------------------------------------------------+
+|                             FLASK BACKEND (Python 3.14)                       |
+|   +--------------------------+           +--------------------------------+   |
+|   |        RSA MODULE        |           |         LATTICE MODULE         |   |
+|   |  - Keygen (1024-4096)    |           |  - Matrix Representation       |   |
+|   |  - RSA-OAEP SHA-256      |           |  - Bounds Validation           |   |
+|   |  - Base64 Encoding       |           |  - Ctypes Marshaling           |   |
+|   |  - Verification Engine   |           +--------------------------------+   |
+|   +--------------------------+                            | ctypes (C ABI)    |
++-----------------------------------------------------------|-------------------+
+                                                            v
+                                           +--------------------------------+
+                                           |      NATIVE C LLL ENGINE       |
+                                           |      (lll.dll via MSVC x64)    |
+                                           |  - Gram-Schmidt (b*, mu)       |
+                                           |  - Size Reduction (Z^m)        |
+                                           |  - Lovasz Condition (delta)    |
+                                           |  - Vector Swapping (b_k <->)   |
+                                           +--------------------------------+
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 20px;">
+          <h3>Mathematical Methodology</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+            <div>
+              <h4 style="color: var(--text-main); margin-bottom: 6px;">RSA Cryptographic Workflow</h4>
+              <p>
+                Uses standard asymmetric pairs with $e = 65537$. Encryption incorporates optimal asymmetric encryption padding (RSA-OAEP) with SHA-256 and MGF1 to prevent chosen-ciphertext attacks, strictly avoiding textbook RSA.
+              </p>
+            </div>
+            <div>
+              <h4 style="color: var(--text-main); margin-bottom: 6px;">LLL Lattice Basis Reduction</h4>
+              <p>
+                Given basis vectors $\mathbf{b}_1, \dots, \mathbf{b}_n \in \mathbb{Z}^m$, computes Gram-Schmidt vectors $\mathbf{b}_i^* = \mathbf{b}_i - \sum_{j=1}^{i-1} \mu_{i,j} \mathbf{b}_j^*$. Implements size reduction ($|\mu_{i,j}| \le 0.5$) and the Lov&aacute;sz condition $\|\mathbf{b}_k^*\|^2 \ge (\delta - \mu_{k,k-1}^2)\|\mathbf{b}_{k-1}^*\|^2$.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="color: var(--accent-rose);">Scope &amp; Academic Limitations</h3>
+          <ul style="padding-left: 20px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.8;">
+            <li><strong>Strict Scope:</strong> LLL reduction is demonstrated as a lattice-analysis technique. Private-key recovery is strictly outside the scope of this implementation.</li>
+            <li><strong>Numerical Limits:</strong> The C LLL engine accepts integer basis entries up to $|b_{i,j}| \le 2^{31}-1$ to guarantee absence of silent 64-bit integer register overflow during dot product calculations.</li>
+            <li><strong>Future Work:</strong> Arbitrary precision LLL (GMP/MPFR), BKZ reduction, and post-quantum lattice cryptography (ML-KEM / Dilithium).</li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Key Viewer Modal -->
+  <div id="key-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">RSA Key Viewer</h3>
+        <button class="close-btn" onclick="closeKeyModal()">&times;</button>
+      </div>
+      <textarea id="modal-key-content" class="form-control" rows="14" readonly style="font-size: 0.8rem;"></textarea>
+      <div style="margin-top: 16px; display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn btn-secondary" onclick="copyModalKey()">Copy to Clipboard</button>
+        <button class="btn btn-primary" onclick="closeKeyModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="js/app.js"></script>
+  <script src="js/rsa.js"></script>
+  <script src="js/matrix_display.js"></script>
+  <script src="js/lattice.js"></script>
+  <script src="js/lwe_demo.js"></script>
+  <script src="js/charts.js"></script>
+</body>
+</html>

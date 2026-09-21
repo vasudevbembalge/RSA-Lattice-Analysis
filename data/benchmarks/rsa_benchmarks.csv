@@ -1,0 +1,4 @@
+scheme,key_size_bits,keygen_time_ms,encryption_time_ms,decryption_time_ms,verification_time_ms,public_key_bytes,private_key_bytes,ciphertext_bytes,verified
+RSA-OAEP,1024,255.169,25.384,88.725,4.339,272,916,128,True
+RSA-OAEP,2048,207.746,0.355,157.391,0.044,451,1704,256,True
+RSA-OAEP,3072,1178.936,0.386,653.261,0.103,625,2488,384,True

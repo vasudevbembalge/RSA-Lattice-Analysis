@@ -1,0 +1,30 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.class
+.venv/
+env/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# C / Build Artifacts
+*.obj
+*.o
+*.dll
+*.so
+*.dylib
+*.exe
+c_lll/bin/*
+!c_lll/bin/.gitkeep
+
+# Operating System
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo

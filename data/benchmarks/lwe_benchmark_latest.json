@@ -1,0 +1,153 @@
+{
+  "benchmark": "Educational LWE Python vs native C",
+  "message_bytes": 21,
+  "warmup_iterations": 3,
+  "timed_iterations": 30,
+  "dimensions": [
+    2,
+    3
+  ],
+  "correctness": [
+    {
+      "dimension": 2,
+      "python": "PASS",
+      "native_c": "PASS"
+    },
+    {
+      "dimension": 3,
+      "python": "PASS",
+      "native_c": "PASS"
+    }
+  ],
+  "results": [
+    {
+      "dimension": 2,
+      "operation": "key_generation",
+      "backend": "python",
+      "iterations": 30,
+      "average_ms": 0.01681,
+      "min_ms": 0.0153,
+      "max_ms": 0.0188,
+      "success": true,
+      "speedup_vs_native": 0.2589
+    },
+    {
+      "dimension": 2,
+      "operation": "key_generation",
+      "backend": "native_c",
+      "iterations": 30,
+      "average_ms": 0.064927,
+      "min_ms": 0.0453,
+      "max_ms": 0.1413,
+      "success": true
+    },
+    {
+      "dimension": 2,
+      "operation": "encryption",
+      "backend": "python",
+      "iterations": 30,
+      "average_ms": 0.24874,
+      "min_ms": 0.2264,
+      "max_ms": 0.4305,
+      "success": true,
+      "speedup_vs_native": 0.357
+    },
+    {
+      "dimension": 2,
+      "operation": "encryption",
+      "backend": "native_c",
+      "iterations": 30,
+      "average_ms": 0.696823,
+      "min_ms": 0.4464,
+      "max_ms": 1.493,
+      "success": true
+    },
+    {
+      "dimension": 2,
+      "operation": "decryption",
+      "backend": "python",
+      "iterations": 30,
+      "average_ms": 0.01773,
+      "min_ms": 0.0174,
+      "max_ms": 0.0182,
+      "success": true,
+      "speedup_vs_native": 0.0312
+    },
+    {
+      "dimension": 2,
+      "operation": "decryption",
+      "backend": "native_c",
+      "iterations": 30,
+      "average_ms": 0.568753,
+      "min_ms": 0.3653,
+      "max_ms": 1.9485,
+      "success": true
+    },
+    {
+      "dimension": 3,
+      "operation": "key_generation",
+      "backend": "python",
+      "iterations": 30,
+      "average_ms": 0.022127,
+      "min_ms": 0.0203,
+      "max_ms": 0.0247,
+      "success": true,
+      "speedup_vs_native": 0.2759
+    },
+    {
+      "dimension": 3,
+      "operation": "key_generation",
+      "backend": "native_c",
+      "iterations": 30,
+      "average_ms": 0.080207,
+      "min_ms": 0.0476,
+      "max_ms": 0.215,
+      "success": true
+    },
+    {
+      "dimension": 3,
+      "operation": "encryption",
+      "backend": "python",
+      "iterations": 30,
+      "average_ms": 0.303723,
+      "min_ms": 0.2359,
+      "max_ms": 0.7634,
+      "success": true,
+      "speedup_vs_native": 0.6638
+    },
+    {
+      "dimension": 3,
+      "operation": "encryption",
+      "backend": "native_c",
+      "iterations": 30,
+      "average_ms": 0.457557,
+      "min_ms": 0.3008,
+      "max_ms": 1.1386,
+      "success": true
+    },
+    {
+      "dimension": 3,
+      "operation": "decryption",
+      "backend": "python",
+      "iterations": 30,
+      "average_ms": 0.025863,
+      "min_ms": 0.0182,
+      "max_ms": 0.0844,
+      "success": true,
+      "speedup_vs_native": 0.0695
+    },
+    {
+      "dimension": 3,
+      "operation": "decryption",
+      "backend": "native_c",
+      "iterations": 30,
+      "average_ms": 0.37216,
+      "min_ms": 0.2569,
+      "max_ms": 1.7077,
+      "success": true
+    }
+  ],
+  "total_duration_ms": 101.278,
+  "native_modulus_limit": 1000000000,
+  "disclaimer": "Timings include the existing Python and ctypes wrapper call paths; random sources differ between backends."
+}
