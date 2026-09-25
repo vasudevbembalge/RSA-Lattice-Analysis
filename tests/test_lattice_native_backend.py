@@ -7,7 +7,6 @@ from backend.lattice.lattice_crypto_native import (
     generate_lattice_keypair_native,
     native_backend_available,
 )
-from backend.performance.benchmark_lattice import benchmark_parameters, supported_dimensions
 
 
 pytestmark = pytest.mark.skipif(
@@ -51,15 +50,3 @@ def test_python_ciphertext_decrypts_with_native_backend():
     for block in ciphertext["ciphertexts"]:
         recovered.extend(decrypt_lattice_block_native(block, private_key))
     assert bytes(recovered).rstrip(b"\x00").decode("utf-8") == "ABC"
-
-
-@pytest.mark.parametrize("dimension", supported_dimensions())
-def test_native_backend_supports_each_safe_benchmark_dimension(dimension):
-    parameters = benchmark_parameters(dimension)
-    public_key, private_key = generate_lattice_keypair_native(parameters)
-    message = "dimension test"
-    ciphertext = encrypt_lattice(message, public_key)
-    recovered = []
-    for block in ciphertext["ciphertexts"]:
-        recovered.extend(decrypt_lattice_block_native(block, private_key))
-    assert bytes(recovered).rstrip(b"\x00").decode("utf-8") == message

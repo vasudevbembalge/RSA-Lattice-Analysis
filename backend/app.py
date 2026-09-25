@@ -40,10 +40,7 @@ from backend.lattice.educational_lwe import (
 )
 from backend.lattice.lattice_demo import run_educational_demonstration
 from backend.lattice.lattice_crypto_native import native_backend_status
-from backend.performance.benchmark import (
-    run_full_benchmark_suite,
-    load_latest_benchmarks,
-)
+
 
 # Configure secure logging (never logs private keys)
 logging.basicConfig(
@@ -420,7 +417,12 @@ def create_app() -> Flask:
         backend = data.get("backend", "both")
         try:
             dimension = int(data.get("dimension", 3))
-            result = run_educational_demonstration(str(message), dimension, str(backend))
+            result = run_educational_demonstration(
+                str(message),
+                dimension,
+                str(backend),
+                backend_status=native_backend_status(),
+            )
             return jsonify(result), 200
         except (TypeError, ValueError, RuntimeError) as exc:
             return jsonify({"status": "error", "message": str(exc)}), 400
@@ -448,58 +450,6 @@ def create_app() -> Flask:
         except ValueError as exc:
             return jsonify({"status": "error", "message": str(exc)}), 400
 
-    # 13. Performance Summary
-    @app.route("/api/performance", methods=["GET"])
-    def api_performance():
-        return jsonify({
-            "status": "success",
-            "benchmark_supported": True,
-            "rsa_sizes": list(SUPPORTED_KEY_SIZES),
-            "lattice_presets": ["textbook_3x3", "skewed_2x2", "dimension_4x4"],
-            "disclaimer": "All measurements reflect actual client/server runtime executions.",
-        }), 200
-
-    # 10. Execute a new empirical benchmark suite
-    @app.route("/api/performance/run", methods=["POST"])
-    def api_performance_run():
-        try:
-            report = run_full_benchmark_suite()
-            if not isinstance(report, dict) or not report.get("timestamp"):
-                raise ValueError("Benchmark engine returned malformed data.")
-            if not isinstance(report.get("rsa_benchmarks"), list):
-                raise ValueError("Benchmark engine returned malformed RSA data.")
-            if not isinstance(report.get("lattice_benchmarks"), dict):
-                raise ValueError("Benchmark engine returned malformed lattice data.")
-            return jsonify({"status": "success", "success": True, **report}), 200
-        except Exception:
-            logger.exception("Benchmark execution failed")
-            return jsonify({
-                "status": "error",
-                "success": False,
-                "error": "Benchmark execution failed.",
-                "message": "The empirical benchmark suite could not be completed.",
-            }), 500
-
-    # 11. Load the most recently persisted benchmark suite
-    @app.route("/api/performance/results", methods=["GET"])
-    def api_performance_results():
-        try:
-            report = load_latest_benchmarks()
-            if not isinstance(report, dict) or not report.get("timestamp"):
-                raise ValueError("Stored benchmark data is missing a timestamp.")
-            if not isinstance(report.get("rsa_benchmarks"), list):
-                raise ValueError("Stored benchmark RSA data is malformed.")
-            if not isinstance(report.get("lattice_benchmarks"), dict):
-                raise ValueError("Stored benchmark lattice data is malformed.")
-            return jsonify({"status": "success", "success": True, **report}), 200
-        except Exception:
-            logger.exception("Loading benchmark results failed")
-            return jsonify({
-                "status": "error",
-                "success": False,
-                "error": "Benchmark results unavailable.",
-                "message": "No valid persisted benchmark results are available.",
-            }), 500
 
     return app
 

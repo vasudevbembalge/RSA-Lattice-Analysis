@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RSA Cryptography and Lattice-Based Analysis Framework</title>
   <link rel="stylesheet" href="css/style.css">
-  <!-- Chart.js for empirical benchmark visualization -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -24,7 +22,6 @@
       <li class="nav-item"><a class="nav-link" data-target="tab-decryption">RSA Decryption</a></li>
       <li class="nav-item"><a class="nav-link" data-target="tab-lwe-demo">Lattice-Based Public-Key Encryption</a></li>
       <li class="nav-item"><a class="nav-link" data-target="tab-lattice">Lattice / LLL Analysis</a></li>
-      <li class="nav-item"><a class="nav-link" data-target="tab-performance">Performance &amp; Benchmarks</a></li>
       <li class="nav-item"><a class="nav-link" data-target="tab-about">About / Methodology</a></li>
     </ul>
     <div class="sidebar-footer">
@@ -111,13 +108,6 @@
             <button class="btn btn-primary" onclick="navTo('tab-decryption')">Inspect Verification &rarr;</button>
           </div>
 
-          <div class="card">
-            <h3>Performance Benchmarks <span class="badge badge-info">&#x2713; Active</span></h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px;">
-              Empirical execution timings for RSA operations and C LLL lattice reduction.
-            </p>
-            <button class="btn btn-primary" onclick="navTo('tab-performance')">View Benchmarks &rarr;</button>
-          </div>
         </div>
       </section>
 
@@ -477,14 +467,6 @@
             </div>
           </div>
 
-          <div class="demo-section-card lwe-advanced-panel" id="lwe-step-benchmark">
-            <div class="demo-section-heading"><span class="demo-step">08</span><div><h3>PYTHON VS C</h3><p>Timings recorded by this run, plus the persisted values from the existing benchmark file.</p></div></div>
-            <div class="demo-stat-grid" id="lwe-demo-run-timings"></div>
-            <div class="demo-stat-grid" id="lwe-demo-total-performance"></div>
-            <div class="table-scroll"><table class="results-table demo-comparison-table"><thead><tr><th>Operation</th><th>Python</th><th>Native C</th></tr></thead><tbody id="lwe-demo-benchmark-rows"></tbody></table></div>
-            <p class="demo-explanation">For the tested small dimensions, Python may be faster in end-to-end execution because ctypes, buffer conversion, allocation, and Python/C boundary overhead can dominate the computation.</p>
-          </div>
-
           <div class="demo-section-card lwe-advanced-panel" id="lwe-step-architecture">
             <div class="demo-section-heading"><span class="demo-step">09</span><div><h3>ARCHITECTURE</h3><p>LWE backends share the educational construction; LLL remains separate.</p></div></div>
             <div class="architecture-diagram">
@@ -577,72 +559,7 @@
         </div>
       </section>
 
-      <!-- 8. PERFORMANCE & BENCHMARKS TAB -->
-      <section id="tab-performance" class="tab-pane">
-        <div class="section-header">
-          <h2>Performance &amp; Empirical Benchmarks</h2>
-          <p>Measured RSA and educational LWE operations, plus separate native C LLL reduction telemetry</p>
-        </div>
-
-        <div class="card" style="margin-bottom: 24px;">
-          <h3 style="font-size: 1rem;">Benchmark Controls</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px;">
-            Runs the existing empirical benchmark engine. RSA measurements reflect cryptographic operation latency; LLL measurements reflect lattice basis reduction performance, not cryptanalytic success.
-          </p>
-          <button class="btn btn-primary" id="btn-run-benchmark">Run Benchmark</button>
-          <button class="btn btn-secondary" id="btn-load-benchmark-results">Load Latest Results</button>
-          <div id="performance-status" class="operation-status" hidden></div>
-          <div id="performance-metadata" class="metadata-panel" hidden>
-            <div><strong>RSA key sizes:</strong> <span id="performance-rsa-sizes"></span></div>
-            <div><strong>Lattice presets:</strong> <span id="performance-lattice-presets"></span></div>
-            <div><strong>Backend benchmark support:</strong> <span id="performance-benchmark-supported"></span></div>
-          </div>
-          <div id="benchmark-summary" class="metadata-panel" hidden>
-            <div><strong>Result source:</strong> <span id="benchmark-source"></span></div>
-            <div><strong>Benchmark timestamp:</strong> <span id="benchmark-timestamp"></span></div>
-          </div>
-        </div>
-
-        <div id="benchmark-results" hidden>
-          <div class="chart-grid">
-            <div class="chart-card">
-              <h3>RSA Performance vs Key Size</h3>
-              <div class="chart-wrapper"><canvas id="chart-rsa-performance"></canvas><div id="chart-rsa-performance-status" class="chart-status">No benchmark results available.</div></div>
-            </div>
-            <div class="chart-card">
-              <h3>LLL Execution Time vs Lattice Dimension</h3>
-              <div class="chart-wrapper"><canvas id="chart-lll-execution"></canvas><div id="chart-lll-execution-status" class="chart-status">No benchmark results available.</div></div>
-            </div>
-            <div class="chart-card">
-              <h3>LLL Iterations vs Lattice Dimension</h3>
-              <div class="chart-wrapper"><canvas id="chart-lll-iterations"></canvas><div id="chart-lll-iterations-status" class="chart-status">No benchmark results available.</div></div>
-            </div>
-            <div class="chart-card">
-              <h3>Vector Norms Before and After LLL Reduction</h3>
-              <div class="chart-wrapper"><canvas id="chart-norm-reduction"></canvas><div id="chart-norm-reduction-status" class="chart-status">No benchmark results available.</div></div>
-            </div>
-          </div>
-          <div class="card" style="margin-bottom: 24px;">
-            <h3 style="font-size: 1rem;">RSA Benchmarks</h3>
-            <div class="table-scroll"><table class="results-table"><thead><tr><th>Key Size</th><th>Key Generation (ms)</th><th>Encryption (ms)</th><th>Decryption (ms)</th><th>Verification (ms)</th><th>Verified</th></tr></thead><tbody id="rsa-benchmark-rows"></tbody></table></div>
-          </div>
-          <div class="card" style="margin-bottom: 24px;">
-            <h3 style="font-size: 1rem;">RSA versus LWE Comparison</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem;">Measured execution and serialized representation sizes. These results support analysis; they do not establish that either scheme is universally better or more secure.</p>
-            <div class="table-scroll"><table class="results-table"><thead><tr><th>Scheme</th><th>Configuration</th><th>Key Generation (ms)</th><th>Encryption (ms)</th><th>Decryption (ms)</th><th>Total (ms)</th><th>Capacity (bytes)</th><th>Ciphertext (bytes)</th><th>Verified</th></tr></thead><tbody id="comparison-benchmark-rows"></tbody></table></div>
-          </div>
-          <div class="card" style="margin-bottom: 24px;">
-            <h3 style="font-size: 1rem;">LLL Reduction Benchmarks</h3>
-            <div class="table-scroll"><table class="results-table"><thead><tr><th>Matrix</th><th>Execution (ms)</th><th>Iterations</th><th>Swaps</th></tr></thead><tbody id="lll-benchmark-rows"></tbody></table></div>
-          </div>
-          <div class="card">
-            <h3 style="font-size: 1rem;">Measured Norm Reduction</h3>
-            <div class="table-scroll"><table class="results-table"><thead><tr><th>Vector</th><th>Original Norm</th><th>Reduced Norm</th></tr></thead><tbody id="norm-benchmark-rows"></tbody></table></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 9. ABOUT / METHODOLOGY TAB -->
+      <!-- 8. ABOUT / METHODOLOGY TAB -->
       <section id="tab-about" class="tab-pane">
         <div class="section-header">
           <h2>About / Research Methodology</h2>

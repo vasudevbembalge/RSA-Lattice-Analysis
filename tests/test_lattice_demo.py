@@ -19,7 +19,7 @@ def test_complete_demo_contains_separate_lattice_and_lll_sections():
     assert len(result["lattice_visualization"]["points"]) == 49
     assert result["lll"]["reduction_status"] == "LLL REDUCTION COMPLETED"
     assert result["lll"]["iterations"] >= 0
-    assert "does not encrypt or decrypt" in result["lll"]["relationship"]
+    assert "does not perform LWE encryption or decryption" in result["lll"]["relationship"]
     assert result["performance"]["benchmark_report"]["benchmark"] == "Educational LWE Python vs native C"
 
 

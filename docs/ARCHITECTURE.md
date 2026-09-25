@@ -7,7 +7,6 @@ This repository is an educational software project. It contains three separate t
 1. RSA-OAEP encryption and decryption.
 2. An educational n-dimensional LWE-style encryption/decryption construction, implemented as a Python reference and a separate native C backend.
 3. Lattice basis analysis through the existing native C LLL implementation.
-4. A unified benchmark report containing real RSA and Python-reference LWE measurements.
 
 The LWE construction is intentionally educational and is not a production cryptosystem. LLL is a basis-reduction and analysis component. It is not used by the LWE encryption or decryption path.
 
@@ -29,7 +28,6 @@ flowchart TD
     CWRAP --> CDLL[lattice_crypto.dll]
     DEMO --> VIS[2D lattice point representation]
     DEMO --> LLL_API
-    DEMO --> BENCH[Persisted LWE benchmark report]
 
     LLL_API --> LLL_WRAP[lll_interface.py]
     LLL_WRAP --> LLL_DLL[lll.dll]
@@ -252,9 +250,6 @@ The Flask application is `backend/app.py`. Relevant endpoints include:
 | `POST` | `/api/lattice/reduce` | Run the separate native LLL reduction path |
 | `GET` | `/api/lattice/samples` | Retrieve existing LLL sample bases |
 | `POST` | `/api/lattice/random` | Generate an integer matrix for lattice analysis |
-| `GET` | `/api/performance` | Return benchmark metadata |
-| `POST` | `/api/performance/run` | Run the existing RSA/LLL benchmark suite |
-| `GET` | `/api/performance/results` | Load the latest existing benchmark suite |
 
 The complete demo endpoint defaults to the native-safe byte-message dimension `3` and can accept `backend = "python"`, `"native_c"`, or `"both"`.
 
@@ -273,40 +268,6 @@ The controller is `frontend/js/lwe_demo.js`. Steps 2 and 3 remain hidden until t
 The encryption card presents the construction as lattice-based public-key encryption: the inputs plaintext `m`, message encoding, Public Key `(A, b)`, randomness `r`, and encryption noise `e1`/`e2` feed one `LWE ENCRYPTION` step that returns `(u, v)`, followed by the explanation that LWE rests on noisy modular linear equations with an underlying lattice-based mathematical structure and the chain `A, b -> LWE public key -> public-key encryption -> (u, v) -> secret key s -> decryption`. Randomness and noise are generated inside the backend and are not returned, so no values are invented for them. The `LATTICE REPRESENTATION` card shows `LWE public-key encryption -> noisy modular relations -> lattice interpretation -> educational lattice visualization` and states that the picture is the interpretation only, not the numerical modular arithmetic of steps 03 and 04.
 
 All matrices and vectors — `A`, `b`, `s`, `e`, the ciphertext `u`/`v`, and both LLL bases — are rendered by the presentation-only component in `frontend/js/matrix_display.js`, never as raw JSON. The `LLL LATTICE REDUCTION` card states that LLL is a basis-reduction algorithm included for lattice analysis: it does not encrypt or decrypt the message and is not required by the LWE implementation.
-
-## RSA Versus LWE Benchmark
-
-`backend/performance/benchmark.py` extends the existing empirical suite with Python-reference LWE rows. It reports key generation, encryption, decryption, verification, serialized public/private key sizes, ciphertext size, parameters, and round-trip status for both RSA-OAEP and educational LWE. Values are generated during the benchmark run; they are not security claims.
-
-## Python Versus Native C Benchmark
-
-The dedicated LWE benchmark is `backend/performance/benchmark_lattice.py`. It measures key generation, encryption, and decryption separately with warm-up iterations and repeated `time.perf_counter()` measurements. It writes:
-
-- `data/benchmarks/lwe_benchmark_latest.json`
-
-The recorded benchmark used:
-
-- message size: 21 bytes
-- warm-up iterations: 3
-- timed iterations: 30
-- dimensions: 2 and 3
-- modulus: 999,999,937
-- message modulus: 256
-- noise bound: 2
-- samples: `max(8, dimension)`
-
-| Dimension | Operation | Python average (ms) | Native C average (ms) | Python/native C |
-|---:|---|---:|---:|---:|
-| 2 | Key generation | 0.016810 | 0.064927 | 0.2589x |
-| 2 | Encryption | 0.248740 | 0.696823 | 0.3570x |
-| 2 | Decryption | 0.017730 | 0.568753 | 0.0312x |
-| 3 | Key generation | 0.022127 | 0.080207 | 0.2759x |
-| 3 | Encryption | 0.303723 | 0.457557 | 0.6638x |
-| 3 | Decryption | 0.025863 | 0.372160 | 0.0695x |
-
-Both backends passed round-trip correctness for both dimensions. Python was faster in this end-to-end measurement. The native path includes ctypes calls, buffer conversion, allocation, and Python/native function-call overhead, while the measured computational workload is small. These results do not imply that Python is universally faster or that native C is universally faster.
-
-The benchmark also notes that the random-generation mechanisms differ, so the timing comparison is practical end-to-end measurement rather than exact instruction-level parity.
 
 ## Current Limitations
 

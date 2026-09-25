@@ -141,12 +141,13 @@ function renderMessageConfiguration(capacity) {
 
 function renderPublicParameters(backend) {
   const publicKey = backend.public_key;
+  const errorVector = Array.isArray(backend.error_vector) ? backend.error_vector : null;
   renderStatGrid("lwe-demo-public-parameters", [
     ["Public parameter A", `${publicKey.matrix_A.length} x ${publicKey.matrix_A[0].length} matrix over Z_q`],
     ["Public parameter q", publicKey.modulus],
     ["Public key dimensions", `${publicKey.matrix_A.length} x ${publicKey.matrix_A[0].length} plus ${publicKey.vector_b.length}`],
     ["Secret key s", `${backend.secret_key.secret.length} small entries`],
-    ["Error e", `${backend.error_vector.length} small entries`],
+    ["Error e", errorVector ? `${errorVector.length} small entries` : "Not returned by the educational backend"],
     ["Public component b", "b = A s + e (mod q)"],
     ["Backend used", backend.backend_used || backend.backend],
   ]);
@@ -178,7 +179,15 @@ function renderEncryptionPublicKey(backend) {
 
 function renderSecretKey(backend) {
   MatrixVector("lwe-demo-secret", backend.secret_key.secret, "s = secret vector");
-  MatrixVector("lwe-demo-error", backend.error_vector, "e = error vector (derived from A, b, s)");
+  if (Array.isArray(backend.error_vector)) {
+    MatrixVector("lwe-demo-error", backend.error_vector, "e = error vector (derived from A, b, s)");
+  } else {
+    const errorElement = document.getElementById("lwe-demo-error");
+    if (errorElement) {
+      errorElement.textContent = "The educational backend does not expose the error vector as a separate field.";
+      errorElement.className = "matrix-display-empty";
+    }
+  }
 }
 
 function renderLattice(report) {
@@ -298,42 +307,6 @@ function renderLLL(report) {
     ["Swaps", lll.swaps],
     ["Execution time", `${lll.execution_time_ms} ms`],
     ["Reduction status", lll.reduction_status],
-  ]);
-}
-
-function renderBenchmark(report) {
-  const target = document.getElementById("lwe-demo-benchmark-rows");
-  target.replaceChildren();
-  const dimension = report.lwe.parameters.dimension;
-  const benchmark = report.performance.benchmark_report;
-  if (!benchmark || !Array.isArray(benchmark.results)) {
-    const row = document.createElement("tr");
-    const cell = document.createElement("td");
-    cell.colSpan = 3;
-    cell.textContent = "Persisted LWE benchmark results are unavailable.";
-    row.appendChild(cell);
-    target.appendChild(row);
-  } else {
-    ["key_generation", "encryption", "decryption"].forEach((operation) => {
-      const python = benchmark.results.find((item) => item.dimension === dimension && item.operation === operation && item.backend === "python");
-      const native = benchmark.results.find((item) => item.dimension === dimension && item.operation === operation && item.backend === "native_c");
-      const row = document.createElement("tr");
-      [operation.replaceAll("_", " "), python ? `${python.average_ms} ms` : "-", native ? `${native.average_ms} ms` : "-"].forEach((value) => {
-        const cell = document.createElement("td");
-        cell.textContent = value;
-        row.appendChild(cell);
-      });
-      target.appendChild(row);
-    });
-  }
-
-  const selected = lweDemoState.backend;
-  renderStatGrid("lwe-demo-run-timings", [
-    ["Backend measured in this run", backendLabel(selected.backend)],
-    ["Key generation", formatMilliseconds(selected.key_generation_ms, "Key generation time")],
-    ["Encryption", formatMilliseconds(selected.encryption_ms, "Encryption time")],
-    ["Decryption", formatMilliseconds(selected.decryption_ms, "Decryption time")],
-    ["Round-trip status", selected.status],
   ]);
 }
 
@@ -517,7 +490,6 @@ async function generateLWEDemo() {
     renderEquationGrid("lwe-demo-key-equation", { key_generation: report.lwe.equations.key_generation });
     renderLattice(report);
     renderLLL(report);
-    renderBenchmark(report);
     resetDownstreamSteps();
     resetEncryptionDisplay();
 

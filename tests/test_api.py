@@ -347,13 +347,6 @@ def test_api_lattice_demo_native_request_falls_back_to_python(client, monkeypatc
     assert data["lwe"]["backends"][0]["recovered_plaintext"] == "HELLO LATTICE"
 
 
-def test_api_performance_info(client):
-    res = client.get("/api/performance")
-    assert res.status_code == 200
-    data = res.get_json()
-    assert data["benchmark_supported"] is True
-
-
 def test_api_global_not_found_and_method_handlers(client):
     not_found = client.get("/api/does-not-exist")
     assert not_found.status_code == 404
@@ -362,68 +355,3 @@ def test_api_global_not_found_and_method_handlers(client):
     method_not_allowed = client.post("/api/status")
     assert method_not_allowed.status_code == 405
     assert method_not_allowed.get_json()["error_code"] == "METHOD_NOT_ALLOWED"
-
-
-def _benchmark_report():
-    return {
-        "timestamp": "2026-09-19 12:30:15",
-        "rsa_benchmarks": [{
-            "key_size_bits": 1024,
-            "keygen_time_ms": 1.2,
-            "encryption_time_ms": 0.3,
-            "decryption_time_ms": 0.8,
-            "verification_time_ms": 0.01,
-            "verified": True,
-        }],
-        "lattice_benchmarks": {
-            "dimension_scaling": [{
-                "dimension": "2x2",
-                "dim_n": 2,
-                "execution_time_ms": 0.01,
-                "iterations": 2,
-                "swaps": 1,
-            }],
-            "norm_reduction": {
-                "vector_indices": ["b_1"],
-                "original_norms": [10.0],
-                "reduced_norms": [4.0],
-            },
-        },
-        "disclaimer": "Empirically measured operational latencies.",
-    }
-
-
-def test_api_performance_run_returns_report(client, monkeypatch):
-    monkeypatch.setattr(app_module, "run_full_benchmark_suite", _benchmark_report)
-    res = client.post("/api/performance/run", json={})
-    assert res.status_code == 200
-    data = res.get_json()
-    assert data["success"] is True
-    assert data["rsa_benchmarks"][0]["key_size_bits"] == 1024
-    assert data["lattice_benchmarks"]["dimension_scaling"][0]["iterations"] == 2
-
-
-def test_api_performance_results_returns_persisted_report(client, monkeypatch):
-    monkeypatch.setattr(app_module, "load_latest_benchmarks", _benchmark_report)
-    res = client.get("/api/performance/results")
-    assert res.status_code == 200
-    assert res.get_json()["timestamp"] == "2026-09-19 12:30:15"
-
-
-def test_api_performance_run_failure_is_structured(client, monkeypatch):
-    def fail_benchmark():
-        raise RuntimeError("native engine unavailable")
-
-    monkeypatch.setattr(app_module, "run_full_benchmark_suite", fail_benchmark)
-    res = client.post("/api/performance/run", json={})
-    assert res.status_code == 500
-    data = res.get_json()
-    assert data["success"] is False
-    assert data["error"] == "Benchmark execution failed."
-
-
-def test_api_performance_results_rejects_malformed_data(client, monkeypatch):
-    monkeypatch.setattr(app_module, "load_latest_benchmarks", lambda: {"timestamp": "missing data"})
-    res = client.get("/api/performance/results")
-    assert res.status_code == 500
-    assert res.get_json()["error"] == "Benchmark results unavailable."
